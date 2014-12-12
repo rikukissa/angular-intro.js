@@ -29,13 +29,13 @@ ngIntroDirective.directive('ngIntroOptions', ['$timeout', function ($timeout) {
                 }
 
                 intro.setOptions(scope.ngIntroOptions);
-                
+
                 if (scope.ngIntroAutorefresh) {
                   scope.$watch(function(){
                     intro.refresh();
                   });
                 }
-                
+
                 if (scope.ngIntroOncomplete) {
                     intro.oncomplete(function() {
                         $timeout(scope.ngIntroOncomplete.bind(this, scope));
@@ -56,7 +56,8 @@ ngIntroDirective.directive('ngIntroOptions', ['$timeout', function ($timeout) {
 
                 if (scope.ngIntroOnbeforechange) {
                     intro.onbeforechange(function(targetElement) {
-                        $timeout(scope.ngIntroOnbeforechange.bind(this, targetElement, scope));
+                        setTimeout(scope.$digest);
+                        return scope.ngIntroOnbeforechange.call(this, targetElement, scope);
                     });
                 }
 
